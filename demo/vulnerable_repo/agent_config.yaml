@@ -1,0 +1,6 @@
+agent:
+  name: insecure-agent
+  allow_shell: true
+  allow_network: true
+  model_output_to_tool: direct
+  system_prompt: "You are helpful"
