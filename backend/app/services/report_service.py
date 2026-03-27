@@ -22,6 +22,9 @@ class ReportService:
                     "snippet": f.snippet,
                     "remediation": f.remediation,
                     "cwe": f.cwe,
+                    "cwe_name": f.cwe_name,
+                    "cvss_score": f.cvss_score,
+                    "cvss_severity": f.cvss_severity,
                 }
                 for f in scan.findings
             ],
@@ -47,7 +50,8 @@ class ReportService:
                     f"- File: `{f.file_path}:{f.line_number}`",
                     f"- Rule: `{f.rule_id}`",
                     f"- Category: `{f.category}`",
-                    f"- CWE: `{f.cwe or 'N/A'}`",
+                    f"- CWE: `{f.cwe or 'N/A'}` ({f.cwe_name or 'Unknown'})",
+                    f"- CVSS-like score: `{f.cvss_score}` ({f.cvss_severity})",
                     f"- Snippet: `{f.snippet}`",
                     f"- Remediation: {f.remediation}",
                     "",

@@ -17,6 +17,9 @@ class FindingOut(BaseModel):
     remediation: str
     cwe: str | None
     policy_rationale: str
+    cvss_score: float
+    cvss_severity: str
+    cwe_name: str | None
 
     class Config:
         from_attributes = True

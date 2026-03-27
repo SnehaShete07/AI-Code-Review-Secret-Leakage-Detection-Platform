@@ -11,6 +11,7 @@ from app.policies.engine import PolicyEngine
 from app.scanners.dependency_scanner import DependencyScanner
 from app.scanners.rule_scanner import RuleScanner
 from app.scanners.secret_scanner import SecretScanner
+from app.utils.cwe import cwe_name
 from app.utils.diff import parse_unified_diff
 from app.utils.files import iter_files
 
@@ -41,7 +42,10 @@ class ScanService:
                 explanation=llm.explanation,
                 remediation=llm.remediation,
                 cwe=m.get("cwe"),
+                cwe_name=cwe_name(m.get("cwe")),
                 policy_rationale=policy.rationale,
+                cvss_score=policy.cvss_score,
+                cvss_severity=policy.cvss_severity,
             )
             db.add(finding)
             created.append(finding)
@@ -53,13 +57,19 @@ class ScanService:
     def _build_summary(self, findings: list[Finding]) -> dict:
         buckets = {"critical": 0, "high": 0, "medium": 0, "low": 0}
         categories: dict[str, int] = {}
+        cvss_values: list[float] = []
         for f in findings:
             buckets[f.severity] = buckets.get(f.severity, 0) + 1
             categories[f.category] = categories.get(f.category, 0) + 1
+            cvss_values.append(f.cvss_score)
+        avg_cvss = round(sum(cvss_values) / len(cvss_values), 2) if cvss_values else 0.0
+        exposure_index = round((buckets["critical"] * 5 + buckets["high"] * 3 + buckets["medium"] * 2 + buckets["low"]) / max(len(findings), 1), 2)
         return {
             "total": len(findings),
             "severity": buckets,
             "categories": categories,
+            "avg_cvss": avg_cvss,
+            "exposure_index": exposure_index,
         }
 
     def scan_repository(self, db: Session, repo_path: str) -> Scan:

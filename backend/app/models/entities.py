@@ -52,6 +52,9 @@ class Finding(Base):
     remediation: Mapped[str] = mapped_column(Text)
     cwe: Mapped[str | None] = mapped_column(String(32), nullable=True)
     policy_rationale: Mapped[str] = mapped_column(Text)
+    cvss_score: Mapped[float] = mapped_column(Float, default=0.0)
+    cvss_severity: Mapped[str] = mapped_column(String(16), default="low")
+    cwe_name: Mapped[str | None] = mapped_column(String(255), nullable=True)
 
     scan: Mapped[Scan] = relationship(back_populates="findings")
 
