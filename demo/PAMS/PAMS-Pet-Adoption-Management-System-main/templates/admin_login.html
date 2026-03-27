@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+{% block title %}Admin Login — PAMS{% endblock %}
+
+{% block content %}
+<div class="container py-5">
+  <div class="row justify-content-center">
+    <div class="col-md-5">
+      <div class="form-card text-center">
+        <div class="mb-3" style="font-size:2.5rem">🔐</div>
+        <h4 class="form-card-title">Admin Login</h4>
+        <form method="POST" class="text-start mt-4">
+          <div class="mb-3">
+            <label class="form-label">Username</label>
+            <input type="text" class="form-control" name="username" required autofocus>
+          </div>
+          <div class="mb-4">
+            <label class="form-label">Password</label>
+            <input type="password" class="form-control" name="password" required>
+          </div>
+          <button type="submit" class="btn btn-primary w-100">
+            <i class="bi bi-shield-lock me-1"></i> Sign In
+          </button>
+        </form>
+        <a href="{{ url_for('home') }}" class="d-block mt-3 text-muted small">← Back to site</a>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

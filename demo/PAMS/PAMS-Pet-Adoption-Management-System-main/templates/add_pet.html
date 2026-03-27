@@ -1,0 +1,68 @@
+{% extends "base.html" %}
+{% block title %}Add New Pet — PAMS Admin{% endblock %}
+
+{% block content %}
+<div class="container py-5">
+  <div class="row justify-content-center">
+    <div class="col-lg-7">
+      <div class="form-card">
+        <h5 class="form-card-title"><i class="bi bi-plus-circle me-2"></i>Add New Pet</h5>
+        <form method="POST" class="mt-4">
+          <div class="row g-3">
+            <div class="col-md-6">
+              <label class="form-label">Pet Name <span class="text-danger">*</span></label>
+              <input type="text" class="form-control" name="name" required
+                     value="{{ form.get('name','') }}" placeholder="e.g. Buddy">
+            </div>
+            <div class="col-md-6">
+              <label class="form-label">Species <span class="text-danger">*</span></label>
+              <select class="form-select" name="species" required>
+                <option value="">Select species…</option>
+                {% for s in ['Dog','Cat','Rabbit','Bird','Fish','Hamster','Other'] %}
+                <option value="{{ s }}" {% if form.get('species')==s %}selected{% endif %}>{{ s }}</option>
+                {% endfor %}
+              </select>
+            </div>
+            <div class="col-md-6">
+              <label class="form-label">Breed</label>
+              <input type="text" class="form-control" name="breed"
+                     value="{{ form.get('breed','') }}" placeholder="e.g. Golden Retriever">
+            </div>
+            <div class="col-md-3">
+              <label class="form-label">Age (years)</label>
+              <input type="number" class="form-control" name="age" min="0" max="30"
+                     value="{{ form.get('age','') }}" placeholder="2">
+            </div>
+            <div class="col-md-3">
+              <label class="form-label">Gender</label>
+              <select class="form-select" name="gender">
+                <option value="">—</option>
+                <option value="Male"    {% if form.get('gender')=='Male'    %}selected{% endif %}>Male</option>
+                <option value="Female"  {% if form.get('gender')=='Female'  %}selected{% endif %}>Female</option>
+                <option value="Unknown" {% if form.get('gender')=='Unknown' %}selected{% endif %}>Unknown</option>
+              </select>
+            </div>
+            <div class="col-12">
+              <label class="form-label">Description</label>
+              <textarea class="form-control" name="description" rows="3"
+                        placeholder="Personality, temperament, special needs…">{{ form.get('description','') }}</textarea>
+            </div>
+            <div class="col-12">
+              <label class="form-label">Image URL <span class="text-muted small">(optional)</span></label>
+              <input type="text" class="form-control" name="image_url"
+                     value="{{ form.get('image_url','') }}"
+                     placeholder="https://example.com/pet.jpg">
+            </div>
+          </div>
+          <div class="d-flex gap-3 mt-4">
+            <button type="submit" class="btn btn-primary flex-grow-1">
+              <i class="bi bi-check-lg me-1"></i> Add Pet
+            </button>
+            <a href="{{ url_for('admin_pets') }}" class="btn btn-outline-secondary">Cancel</a>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

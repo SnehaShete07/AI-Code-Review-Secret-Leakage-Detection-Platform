@@ -1,0 +1,104 @@
+{% extends "base.html" %}
+{% block title %}Admin Dashboard — PAMS{% endblock %}
+
+{% block content %}
+<div class="container py-5">
+
+  <div class="d-flex justify-content-between align-items-center mb-4">
+    <h2 class="section-title mb-0">Admin Dashboard</h2>
+    <div class="d-flex gap-2">
+      <a href="{{ url_for('export_pets_csv') }}" class="btn btn-sm btn-outline-success">
+        <i class="bi bi-download me-1"></i> Export Pets CSV
+      </a>
+      <a href="{{ url_for('export_requests_csv') }}" class="btn btn-sm btn-outline-success">
+        <i class="bi bi-download me-1"></i> Export Requests CSV
+      </a>
+    </div>
+  </div>
+
+  <!-- Stats -->
+  <div class="row g-3 mb-5">
+    <div class="col-6 col-md">
+      <div class="admin-stat-card">
+        <div class="admin-stat-number">{{ stats.total }}</div>
+        <div class="admin-stat-label">Total Pets</div>
+      </div>
+    </div>
+    <div class="col-6 col-md">
+      <div class="admin-stat-card green">
+        <div class="admin-stat-number">{{ stats.available }}</div>
+        <div class="admin-stat-label">Available</div>
+      </div>
+    </div>
+    <div class="col-6 col-md">
+      <div class="admin-stat-card orange">
+        <div class="admin-stat-number">{{ stats.pending_r }}</div>
+        <div class="admin-stat-label">Pending Requests</div>
+      </div>
+    </div>
+    <div class="col-6 col-md">
+      <div class="admin-stat-card blue">
+        <div class="admin-stat-number">{{ stats.adopted }}</div>
+        <div class="admin-stat-label">Adopted</div>
+      </div>
+    </div>
+    <div class="col-6 col-md">
+      <div class="admin-stat-card purple">
+        <div class="admin-stat-number">{{ stats.users }}</div>
+        <div class="admin-stat-label">Registered Users</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Quick Actions -->
+  <div class="row g-3 mb-5">
+    <div class="col-md-4">
+      <a href="{{ url_for('add_pet') }}" class="quick-action-card d-block text-decoration-none">
+        <i class="bi bi-plus-circle-fill"></i>
+        <span>Add New Pet</span>
+      </a>
+    </div>
+    <div class="col-md-4">
+      <a href="{{ url_for('admin_pets') }}" class="quick-action-card d-block text-decoration-none">
+        <i class="bi bi-grid-fill"></i>
+        <span>Manage Pets</span>
+      </a>
+    </div>
+    <div class="col-md-4">
+      <a href="{{ url_for('admin_requests') }}" class="quick-action-card d-block text-decoration-none">
+        <i class="bi bi-clipboard2-check-fill"></i>
+        <span>Review Requests</span>
+      </a>
+    </div>
+  </div>
+
+  <!-- Recent Requests -->
+  <h5 class="fw-semibold mb-3">Recent Adoption Requests</h5>
+  {% if recent_requests %}
+  <div class="table-responsive">
+    <table class="table admin-table">
+      <thead>
+        <tr>
+          <th>#</th><th>Adopter</th><th>Pet</th><th>Date</th><th>Status</th><th></th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for r in recent_requests %}
+        <tr>
+          <td>{{ r['request_id'] }}</td>
+          <td><strong>{{ r['user_name'] }}</strong><br><small class="text-muted">{{ r['email'] }}</small></td>
+          <td>{{ r['pet_name'] }} <small class="text-muted">({{ r['species'] }})</small></td>
+          <td>{{ r['request_date'] }}</td>
+          <td><span class="status-badge status-{{ r['status']|lower }}">{{ r['status'] }}</span></td>
+          <td><a href="{{ url_for('admin_requests') }}" class="btn btn-xs btn-outline-primary">Manage</a></td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+  {% else %}
+    <p class="text-muted">No adoption requests yet.</p>
+  {% endif %}
+
+</div>
+{% endblock %}

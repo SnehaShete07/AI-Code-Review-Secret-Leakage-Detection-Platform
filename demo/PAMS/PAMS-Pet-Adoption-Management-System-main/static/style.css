@@ -1,0 +1,311 @@
+/* ─────────────────────────────────────────────────────────────────────────────
+   PAMS — Pet Adoption Management System
+   Theme: Warm Terracotta · Organic · Refined
+   Fonts: Playfair Display (headings) + DM Sans (body)
+───────────────────────────────────────────────────────────────────────────── */
+
+:root {
+  --clr-primary:      #C0714F;   /* terracotta */
+  --clr-primary-dk:   #9E5939;
+  --clr-primary-lt:   #F2D9CC;
+  --clr-accent:       #5C8C6E;   /* sage green */
+  --clr-accent-lt:    #D4EAD9;
+  --clr-bg:           #FDFAF7;
+  --clr-surface:      #FFFFFF;
+  --clr-border:       #EDE5DC;
+  --clr-text:         #2C2318;
+  --clr-muted:        #7A6A5E;
+  --clr-yellow:       #F5C842;
+  --radius:           14px;
+  --shadow-sm:        0 1px 4px rgba(60,35,15,.08);
+  --shadow-md:        0 4px 20px rgba(60,35,15,.10);
+  --shadow-lg:        0 8px 40px rgba(60,35,15,.14);
+  --transition:       0.22s ease;
+}
+
+/* ── Reset & Base ─────────────────────────────────────────────────────────── */
+*, *::before, *::after { box-sizing: border-box; }
+
+body {
+  font-family: 'DM Sans', sans-serif;
+  background: var(--clr-bg);
+  color: var(--clr-text);
+  line-height: 1.65;
+  min-height: 100vh;
+}
+
+h1,h2,h3,h4,h5,h6 {
+  font-family: 'Playfair Display', serif;
+  color: var(--clr-text);
+}
+
+a { color: var(--clr-primary); text-decoration: none; }
+a:hover { color: var(--clr-primary-dk); }
+
+/* ── Bootstrap Overrides ──────────────────────────────────────────────────── */
+.btn-primary {
+  background: var(--clr-primary);
+  border-color: var(--clr-primary);
+  color: #fff;
+  border-radius: 8px;
+  font-weight: 500;
+  transition: background var(--transition), transform var(--transition);
+}
+.btn-primary:hover, .btn-primary:focus {
+  background: var(--clr-primary-dk);
+  border-color: var(--clr-primary-dk);
+  transform: translateY(-1px);
+}
+.btn-outline-primary { color: var(--clr-primary); border-color: var(--clr-primary); border-radius: 8px; }
+.btn-outline-primary:hover { background: var(--clr-primary); border-color: var(--clr-primary); }
+.btn-outline-success { border-radius: 8px; }
+.btn-outline-secondary { border-radius: 8px; }
+.btn-xs {
+  padding: .2rem .5rem;
+  font-size: .78rem;
+  border-radius: 6px;
+  line-height: 1.4;
+}
+.form-control, .form-select {
+  border-color: var(--clr-border);
+  border-radius: 8px;
+  font-size: .92rem;
+  background: var(--clr-surface);
+}
+.form-control:focus, .form-select:focus {
+  border-color: var(--clr-primary);
+  box-shadow: 0 0 0 3px rgba(192,113,79,.18);
+}
+
+/* ── Navbar ───────────────────────────────────────────────────────────────── */
+.navbar {
+  background: rgba(253,250,247,.95);
+  backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--clr-border);
+  padding: .75rem 0;
+}
+.navbar-brand {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.35rem;
+  color: var(--clr-text) !important;
+  letter-spacing: -.01em;
+}
+.brand-paw { font-size: 1.1rem; }
+.nav-link {
+  color: var(--clr-muted) !important;
+  font-size: .9rem;
+  font-weight: 500;
+  padding: .4rem .75rem !important;
+  border-radius: 7px;
+  transition: background var(--transition), color var(--transition);
+}
+.nav-link:hover { background: var(--clr-primary-lt); color: var(--clr-primary) !important; }
+
+/* ── Hero ─────────────────────────────────────────────────────────────────── */
+.hero-section {
+  padding: 6rem 0 4rem;
+  background:
+    radial-gradient(ellipse 120% 60% at 50% 0%, var(--clr-primary-lt) 0%, transparent 70%),
+    var(--clr-bg);
+}
+.hero-badge {
+  display: inline-block;
+  background: var(--clr-accent-lt);
+  color: var(--clr-accent);
+  font-size: .82rem;
+  font-weight: 600;
+  letter-spacing: .06em;
+  text-transform: uppercase;
+  padding: .3rem .9rem;
+  border-radius: 20px;
+}
+.hero-title {
+  font-size: clamp(2.2rem, 5vw, 3.6rem);
+  line-height: 1.15;
+  margin-top: .5rem;
+}
+.text-accent { color: var(--clr-primary); }
+.hero-subtitle {
+  color: var(--clr-muted);
+  font-size: 1.08rem;
+  max-width: 520px;
+  margin: .75rem auto 0;
+}
+
+/* ── Stats Section ────────────────────────────────────────────────────────── */
+.stats-section {
+  padding: 3rem 0;
+}
+.stat-card {
+  background: var(--clr-surface);
+  border: 1px solid var(--clr-border);
+  border-radius: var(--radius);
+  padding: 1.5rem 1rem;
+  box-shadow: var(--shadow-sm);
+  transition: box-shadow var(--transition), transform var(--transition);
+}
+.stat-card:hover { box-shadow: var(--shadow-md); transform: translateY(-3px); }
+.stat-icon { font-size: 1.8rem; }
+.stat-number {
+  font-family: 'Playfair Display', serif;
+  font-size: 2.2rem;
+  font-weight: 700;
+  color: var(--clr-primary);
+  line-height: 1.1;
+  margin-top: .25rem;
+}
+.stat-label { font-size: .82rem; color: var(--clr-muted); font-weight: 500; margin-top: .15rem; }
+
+/* ── Section Title ────────────────────────────────────────────────────────── */
+.section-title {
+  font-size: 1.7rem;
+  position: relative;
+  padding-bottom: .5rem;
+}
+.section-title::after {
+  content: '';
+  position: absolute;
+  bottom: 0; left: 0;
+  width: 40px; height: 3px;
+  background: var(--clr-primary);
+  border-radius: 2px;
+}
+
+/* ── Pet Cards ────────────────────────────────────────────────────────────── */
+.pet-card {
+  background: var(--clr-surface);
+  border: 1px solid var(--clr-border);
+  border-radius: var(--radius);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  box-shadow: var(--shadow-sm);
+  transition: box-shadow var(--transition), transform var(--transition);
+}
+.pet-card:hover { box-shadow: var(--shadow-md); transform: translateY(-4px); }
+.pet-card-img-wrap {
+  background: var(--clr-primary-lt);
+  display: flex; align-items: center; justify-content: center;
+  height: 130px;
+  font-size: 3.5rem;
+}
+.pet-card-body {
+  padding: 1.2rem;
+  display: flex; flex-direction: column; flex: 1;
+}
+.pet-name { font-family: 'Playfair Display', serif; font-size: 1.15rem; margin-bottom: .2rem; }
+.pet-meta { font-size: .8rem; color: var(--clr-muted); margin-bottom: .5rem; }
+.pet-desc { flex-grow: 1; }
+.badge-species {
+  background: var(--clr-accent-lt);
+  color: var(--clr-accent);
+  font-size: .72rem;
+  font-weight: 600;
+  padding: .2rem .55rem;
+  border-radius: 20px;
+}
+
+/* ── Filter Bar ───────────────────────────────────────────────────────────── */
+.filter-bar {
+  background: var(--clr-surface);
+  border: 1px solid var(--clr-border);
+  border-radius: var(--radius);
+  padding: 1.2rem 1.4rem;
+  box-shadow: var(--shadow-sm);
+}
+
+/* ── Pet Summary Card (adopt page) ───────────────────────────────────────── */
+.pet-summary-card {
+  background: var(--clr-primary-lt);
+  border: 1px solid rgba(192,113,79,.25);
+  border-radius: var(--radius);
+  padding: 1.25rem 1.4rem;
+}
+.pet-avatar { font-size: 2.8rem; }
+
+/* ── Form Card ────────────────────────────────────────────────────────────── */
+.form-card {
+  background: var(--clr-surface);
+  border: 1px solid var(--clr-border);
+  border-radius: var(--radius);
+  padding: 2rem;
+  box-shadow: var(--shadow-sm);
+}
+.form-card-title {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: var(--clr-text);
+  margin-bottom: 0;
+}
+
+/* ── Admin Stats ─────────────────────────────────────────────────────────── */
+.admin-stat-card {
+  background: var(--clr-surface);
+  border: 1px solid var(--clr-border);
+  border-radius: var(--radius);
+  padding: 1.4rem 1rem;
+  text-align: center;
+  box-shadow: var(--shadow-sm);
+  border-top: 3px solid var(--clr-primary);
+}
+.admin-stat-card.green  { border-top-color: var(--clr-accent); }
+.admin-stat-card.orange { border-top-color: #E08C3A; }
+.admin-stat-card.blue   { border-top-color: #4A7DB5; }
+.admin-stat-card.purple { border-top-color: #7B5EA7; }
+.admin-stat-number { font-family: 'Playfair Display', serif; font-size: 2rem; font-weight: 700; }
+.admin-stat-label  { font-size: .8rem; color: var(--clr-muted); font-weight: 500; margin-top: .15rem; }
+
+/* ── Quick Action Cards ────────────────────────────────────────────────────── */
+.quick-action-card {
+  background: var(--clr-surface);
+  border: 1px solid var(--clr-border);
+  border-radius: var(--radius);
+  padding: 1.4rem;
+  display: flex;
+  align-items: center;
+  gap: .9rem;
+  color: var(--clr-text);
+  font-weight: 500;
+  box-shadow: var(--shadow-sm);
+  transition: box-shadow var(--transition), transform var(--transition), background var(--transition);
+}
+.quick-action-card i { font-size: 1.5rem; color: var(--clr-primary); }
+.quick-action-card:hover { box-shadow: var(--shadow-md); transform: translateY(-2px); background: var(--clr-primary-lt); }
+
+/* ── Admin Table ─────────────────────────────────────────────────────────── */
+.admin-table { background: var(--clr-surface); border-radius: var(--radius); overflow: hidden; }
+.admin-table thead tr { background: var(--clr-bg); }
+.admin-table thead th { font-size: .78rem; font-weight: 600; text-transform: uppercase; letter-spacing: .05em; color: var(--clr-muted); border-bottom: 1px solid var(--clr-border); padding: .75rem 1rem; }
+.admin-table tbody td { padding: .75rem 1rem; border-bottom: 1px solid var(--clr-border); font-size: .88rem; vertical-align: middle; }
+.admin-table tbody tr:last-child td { border-bottom: none; }
+.admin-table tbody tr:hover td { background: var(--clr-bg); }
+
+/* ── Status Badges ───────────────────────────────────────────────────────── */
+.status-badge {
+  display: inline-block;
+  font-size: .72rem;
+  font-weight: 600;
+  padding: .2rem .6rem;
+  border-radius: 20px;
+  letter-spacing: .03em;
+}
+.status-available  { background: var(--clr-accent-lt);  color: var(--clr-accent); }
+.status-pending    { background: #FEF3CD;                color: #9A6E00; }
+.status-adopted    { background: #D6EAF8;                color: #1A5276; }
+.status-approved   { background: var(--clr-accent-lt);  color: var(--clr-accent); }
+.status-rejected   { background: #FDECEA;                color: #A93226; }
+
+/* ── Empty State ──────────────────────────────────────────────────────────── */
+.empty-state .empty-emoji { font-size: 4rem; }
+
+/* ── Footer ──────────────────────────────────────────────────────────────── */
+.site-footer {
+  background: var(--clr-surface);
+  border-top: 1px solid var(--clr-border);
+}
+
+/* ── Responsive ──────────────────────────────────────────────────────────── */
+@media (max-width: 576px) {
+  .hero-section { padding: 3.5rem 0 2rem; }
+  .section-title { font-size: 1.4rem; }
+}

@@ -1,0 +1,68 @@
+{% extends "base.html" %}
+{% block title %}Edit {{ pet['name'] }} — PAMS Admin{% endblock %}
+
+{% block content %}
+<div class="container py-5">
+  <div class="row justify-content-center">
+    <div class="col-lg-7">
+      <div class="form-card">
+        <h5 class="form-card-title"><i class="bi bi-pencil me-2"></i>Edit Pet — {{ pet['name'] }}</h5>
+        <form method="POST" class="mt-4">
+          <div class="row g-3">
+            <div class="col-md-6">
+              <label class="form-label">Pet Name <span class="text-danger">*</span></label>
+              <input type="text" class="form-control" name="name" required value="{{ pet['name'] }}">
+            </div>
+            <div class="col-md-6">
+              <label class="form-label">Species <span class="text-danger">*</span></label>
+              <select class="form-select" name="species" required>
+                {% for s in ['Dog','Cat','Rabbit','Bird','Fish','Hamster','Other'] %}
+                <option value="{{ s }}" {% if pet['species']==s %}selected{% endif %}>{{ s }}</option>
+                {% endfor %}
+              </select>
+            </div>
+            <div class="col-md-6">
+              <label class="form-label">Breed</label>
+              <input type="text" class="form-control" name="breed" value="{{ pet['breed'] or '' }}">
+            </div>
+            <div class="col-md-3">
+              <label class="form-label">Age (years)</label>
+              <input type="number" class="form-control" name="age" min="0" value="{{ pet['age'] or '' }}">
+            </div>
+            <div class="col-md-3">
+              <label class="form-label">Gender</label>
+              <select class="form-select" name="gender">
+                {% for g in ['Male','Female','Unknown'] %}
+                <option value="{{ g }}" {% if pet['gender']==g %}selected{% endif %}>{{ g }}</option>
+                {% endfor %}
+              </select>
+            </div>
+            <div class="col-md-6">
+              <label class="form-label">Status</label>
+              <select class="form-select" name="status">
+                {% for s in ['Available','Pending','Adopted'] %}
+                <option value="{{ s }}" {% if pet['status']==s %}selected{% endif %}>{{ s }}</option>
+                {% endfor %}
+              </select>
+            </div>
+            <div class="col-12">
+              <label class="form-label">Description</label>
+              <textarea class="form-control" name="description" rows="3">{{ pet['description'] or '' }}</textarea>
+            </div>
+            <div class="col-12">
+              <label class="form-label">Image URL</label>
+              <input type="text" class="form-control" name="image_url" value="{{ pet['image_url'] or '' }}">
+            </div>
+          </div>
+          <div class="d-flex gap-3 mt-4">
+            <button type="submit" class="btn btn-primary flex-grow-1">
+              <i class="bi bi-check-lg me-1"></i> Save Changes
+            </button>
+            <a href="{{ url_for('admin_pets') }}" class="btn btn-outline-secondary">Cancel</a>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

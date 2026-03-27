@@ -1,0 +1,84 @@
+{% extends "base.html" %}
+{% block title %}Browse Pets — PAMS{% endblock %}
+
+{% block content %}
+<div class="container py-5">
+  <h2 class="section-title mb-4">🐾 Available Pets</h2>
+
+  <!-- Search & Filter Bar -->
+  <form method="GET" action="{{ url_for('pets') }}" class="filter-bar mb-4">
+    <div class="row g-2 align-items-end">
+      <div class="col-md-5">
+        <label class="form-label small fw-semibold">Search</label>
+        <div class="input-group">
+          <span class="input-group-text"><i class="bi bi-search"></i></span>
+          <input type="text" class="form-control" name="q" placeholder="Name, breed, or description..."
+                 value="{{ search_query }}">
+        </div>
+      </div>
+      <div class="col-md-3">
+        <label class="form-label small fw-semibold">Species</label>
+        <select class="form-select" name="species">
+          <option value="">All Species</option>
+          {% for s in species_list %}
+          <option value="{{ s }}" {% if s == active_species %}selected{% endif %}>{{ s }}</option>
+          {% endfor %}
+        </select>
+      </div>
+      <div class="col-md-2">
+        <label class="form-label small fw-semibold">Gender</label>
+        <select class="form-select" name="gender">
+          <option value="">Any</option>
+          <option value="Male"    {% if active_gender == 'Male'    %}selected{% endif %}>Male</option>
+          <option value="Female"  {% if active_gender == 'Female'  %}selected{% endif %}>Female</option>
+          <option value="Unknown" {% if active_gender == 'Unknown' %}selected{% endif %}>Unknown</option>
+        </select>
+      </div>
+      <div class="col-md-2 d-flex gap-2">
+        <button type="submit" class="btn btn-primary w-100">Filter</button>
+        <a href="{{ url_for('pets') }}" class="btn btn-outline-secondary" title="Clear"><i class="bi bi-x-lg"></i></a>
+      </div>
+    </div>
+  </form>
+
+  <!-- Results count -->
+  <p class="text-muted small mb-3">
+    Showing <strong>{{ pets|length }}</strong> pet{{ 's' if pets|length != 1 else '' }}
+    {% if search_query %} matching "<em>{{ search_query }}</em>"{% endif %}
+    {% if active_species %} · Species: <strong>{{ active_species }}</strong>{% endif %}
+    {% if active_gender %} · Gender: <strong>{{ active_gender }}</strong>{% endif %}
+  </p>
+
+  {% if pets %}
+  <div class="row g-4">
+    {% for pet in pets %}
+    <div class="col-sm-6 col-lg-4">
+      <div class="pet-card h-100">
+        <div class="pet-card-img-wrap">
+          <span class="pet-emoji">{{ '🐕' if pet['species']=='Dog' else '🐈' if pet['species']=='Cat' else '🐇' if pet['species']=='Rabbit' else '🐠' if pet['species']=='Fish' else '🐾' }}</span>
+        </div>
+        <div class="pet-card-body">
+          <span class="badge badge-species">{{ pet['species'] }}</span>
+          <h5 class="pet-name mt-2">{{ pet['name'] }}</h5>
+          <p class="pet-meta">{{ pet['breed'] or 'Mixed' }} · {{ pet['age'] or '?' }} yr · {{ pet['gender'] }}</p>
+          {% if pet['description'] %}
+          <p class="pet-desc text-muted small">{{ pet['description'][:80] }}{% if pet['description']|length > 80 %}…{% endif %}</p>
+          {% endif %}
+          <a href="{{ url_for('adopt', pet_id=pet['pet_id']) }}" class="btn btn-primary w-100 mt-auto">
+            <i class="bi bi-heart-fill me-1"></i> Adopt {{ pet['name'] }}
+          </a>
+        </div>
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+  {% else %}
+  <div class="empty-state text-center py-5">
+    <div class="empty-emoji">🔍</div>
+    <h4 class="mt-3">No pets found</h4>
+    <p class="text-muted">Try adjusting your search or filters.</p>
+    <a href="{{ url_for('pets') }}" class="btn btn-outline-primary mt-2">Clear Filters</a>
+  </div>
+  {% endif %}
+</div>
+{% endblock %}

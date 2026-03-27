@@ -1,0 +1,86 @@
+{% extends "base.html" %}
+{% block title %}PAMS — Find Your Perfect Companion{% endblock %}
+
+{% block content %}
+<!-- ── Hero ──────────────────────────────────────────────────────────────── -->
+<section class="hero-section text-center">
+  <div class="container">
+    <div class="hero-badge mb-3">🐾 Adopt, Don't Shop</div>
+    <h1 class="hero-title">Find Your Perfect<br><span class="text-accent">Furry Companion</span></h1>
+    <p class="hero-subtitle">Every pet deserves a loving home. Browse our available animals and give them theirs.</p>
+    <div class="d-flex gap-3 justify-content-center flex-wrap mt-4">
+      <a href="{{ url_for('pets') }}" class="btn btn-primary btn-lg px-5">
+        Browse Available Pets <i class="bi bi-arrow-right ms-1"></i>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- ── Stats ─────────────────────────────────────────────────────────────── -->
+<section class="stats-section">
+  <div class="container">
+    <div class="row g-4 justify-content-center">
+      <div class="col-6 col-md-3">
+        <div class="stat-card text-center">
+          <div class="stat-icon">🐾</div>
+          <div class="stat-number">{{ stats.total }}</div>
+          <div class="stat-label">Total Pets</div>
+        </div>
+      </div>
+      <div class="col-6 col-md-3">
+        <div class="stat-card text-center">
+          <div class="stat-icon">💚</div>
+          <div class="stat-number">{{ stats.available }}</div>
+          <div class="stat-label">Available</div>
+        </div>
+      </div>
+      <div class="col-6 col-md-3">
+        <div class="stat-card text-center">
+          <div class="stat-icon">🏡</div>
+          <div class="stat-number">{{ stats.adopted }}</div>
+          <div class="stat-label">Adopted</div>
+        </div>
+      </div>
+      <div class="col-6 col-md-3">
+        <div class="stat-card text-center">
+          <div class="stat-icon">⏳</div>
+          <div class="stat-number">{{ stats.pending }}</div>
+          <div class="stat-label">Pending</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── Recently Added ─────────────────────────────────────────────────────── -->
+{% if recent %}
+<section class="py-5">
+  <div class="container">
+    <h2 class="section-title">Recently Added</h2>
+    <div class="row g-4 mt-2">
+      {% for pet in recent %}
+      <div class="col-md-4">
+        <div class="pet-card h-100">
+          <div class="pet-card-img-wrap">
+            <span class="pet-emoji">{{ '🐕' if pet['species']=='Dog' else '🐈' if pet['species']=='Cat' else '🐇' if pet['species']=='Rabbit' else '🐠' if pet['species']=='Fish' else '🐾' }}</span>
+          </div>
+          <div class="pet-card-body">
+            <span class="badge badge-species">{{ pet['species'] }}</span>
+            <h5 class="pet-name mt-2">{{ pet['name'] }}</h5>
+            <p class="pet-meta">{{ pet['breed'] or 'Mixed' }} · {{ pet['age'] or '?' }} yr · {{ pet['gender'] }}</p>
+            <p class="pet-desc text-muted small">{{ pet['description'] or '' }}</p>
+            <a href="{{ url_for('adopt', pet_id=pet['pet_id']) }}" class="btn btn-primary w-100 mt-2">
+              <i class="bi bi-heart"></i> Adopt {{ pet['name'] }}
+            </a>
+          </div>
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+    <div class="text-center mt-4">
+      <a href="{{ url_for('pets') }}" class="btn btn-outline-primary">See All Available Pets →</a>
+    </div>
+  </div>
+</section>
+{% endif %}
+{% endblock %}

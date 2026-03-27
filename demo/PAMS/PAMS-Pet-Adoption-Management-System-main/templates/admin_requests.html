@@ -1,0 +1,66 @@
+{% extends "base.html" %}
+{% block title %}Adoption Requests — PAMS Admin{% endblock %}
+
+{% block content %}
+<div class="container py-5">
+  <div class="d-flex justify-content-between align-items-center mb-4">
+    <h2 class="section-title mb-0">Adoption Requests</h2>
+    <a href="{{ url_for('export_requests_csv') }}" class="btn btn-sm btn-outline-success">
+      <i class="bi bi-download me-1"></i> Export CSV
+    </a>
+  </div>
+
+  <!-- Status filter tabs -->
+  <div class="mb-4">
+    <div class="btn-group">
+      <a href="{{ url_for('admin_requests') }}"           class="btn btn-sm {% if not active_status %}btn-primary{% else %}btn-outline-secondary{% endif %}">All</a>
+      <a href="{{ url_for('admin_requests', status='Pending') }}"  class="btn btn-sm {% if active_status=='Pending'  %}btn-warning text-dark{% else %}btn-outline-secondary{% endif %}">Pending</a>
+      <a href="{{ url_for('admin_requests', status='Approved') }}" class="btn btn-sm {% if active_status=='Approved' %}btn-success{% else %}btn-outline-secondary{% endif %}">Approved</a>
+      <a href="{{ url_for('admin_requests', status='Rejected') }}" class="btn btn-sm {% if active_status=='Rejected' %}btn-danger{% else %}btn-outline-secondary{% endif %}">Rejected</a>
+    </div>
+  </div>
+
+  <div class="table-responsive">
+    <table class="table admin-table align-middle">
+      <thead>
+        <tr>
+          <th>#</th><th>Adopter</th><th>Contact</th><th>Pet</th>
+          <th>Date</th><th>Status</th><th>Notes</th><th>Action</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for r in requests %}
+        <tr>
+          <td class="text-muted small">{{ r['request_id'] }}</td>
+          <td><strong>{{ r['user_name'] }}</strong></td>
+          <td>
+            <small class="d-block">{{ r['email'] }}</small>
+            <small class="text-muted">{{ r['phone'] or '—' }}</small>
+          </td>
+          <td>{{ r['pet_name'] }} <small class="text-muted">({{ r['species'] }})</small></td>
+          <td class="text-muted small">{{ r['request_date'] }}</td>
+          <td><span class="status-badge status-{{ r['status']|lower }}">{{ r['status'] }}</span></td>
+          <td class="text-muted small">{{ r['notes'][:40] if r['notes'] else '—' }}</td>
+          <td>
+            <form method="POST" action="{{ url_for('update_request', request_id=r['request_id']) }}"
+                  class="d-flex gap-1">
+              {% if r['status'] != 'Approved' %}
+              <button name="status" value="Approved" class="btn btn-xs btn-success" title="Approve">✓</button>
+              {% endif %}
+              {% if r['status'] != 'Rejected' %}
+              <button name="status" value="Rejected" class="btn btn-xs btn-danger" title="Reject">✕</button>
+              {% endif %}
+              {% if r['status'] != 'Pending' %}
+              <button name="status" value="Pending" class="btn btn-xs btn-outline-warning" title="Reset to Pending">↩</button>
+              {% endif %}
+            </form>
+          </td>
+        </tr>
+        {% else %}
+        <tr><td colspan="8" class="text-center text-muted py-4">No requests found.</td></tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</div>
+{% endblock %}
